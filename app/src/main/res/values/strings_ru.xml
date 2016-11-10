@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">StationMaster</string>
+    <string name="about_activity_title">Информация</string>
+    <string name="about_text">(c) Leonid Serdtsev healpower@yandex.ru</string>
+    <string name="about_menu_title">О приложении</string>
+    <string name="go_back">Назад</string>
+    <string name="departure">Пункт отправления</string>
+    <string name="destionation">Пункт назначения</string>
+</resources>
