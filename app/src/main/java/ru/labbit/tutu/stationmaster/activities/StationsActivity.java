@@ -1,7 +1,6 @@
 package ru.labbit.tutu.stationmaster.activities;
 
 import android.content.Intent;
-import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -14,32 +13,36 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 import ru.labbit.tutu.stationmaster.R;
+import ru.labbit.tutu.stationmaster.application.App;
+import ru.labbit.tutu.stationmaster.controller.Controller;
 import ru.labbit.tutu.stationmaster.entities.AllStations;
-import ru.labbit.tutu.stationmaster.entities.City;
 import ru.labbit.tutu.stationmaster.entities.Station;
 import ru.labbit.tutu.stationmaster.tasks.LoadStationsTask;
 import ru.labbit.tutu.stationmaster.tasks.MakeStationsListTask;
 import ru.labbit.tutu.stationmaster.utils.json.JSONResourceReader;
-
-import static java.security.AccessController.getContext;
 
 public class StationsActivity extends AppCompatActivity {
 
     private static final int MIN_CHARS_TO_SEARCH = 2;
     private static final String TAG = "CUSTOM MESSAGE";
 
+    @Inject
+    public Controller controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stations_activity);
         addTextListeners((EditText) findViewById(R.id.departure_text));
-        loadStations();
+//        loadStations();
+        App.getComponent().inject(this);
     }
 
     @Override
