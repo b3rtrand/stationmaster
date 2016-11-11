@@ -1,10 +1,12 @@
 package ru.labbit.tutu.stationmaster.activities;
 
 import android.content.Intent;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,21 +15,31 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import ru.labbit.tutu.stationmaster.R;
+import ru.labbit.tutu.stationmaster.entities.AllStations;
+import ru.labbit.tutu.stationmaster.entities.City;
+import ru.labbit.tutu.stationmaster.entities.Station;
+import ru.labbit.tutu.stationmaster.tasks.LoadStationsTask;
 import ru.labbit.tutu.stationmaster.tasks.MakeStationsListTask;
+import ru.labbit.tutu.stationmaster.utils.json.JSONResourceReader;
+
+import static java.security.AccessController.getContext;
 
 public class StationsActivity extends AppCompatActivity {
 
     private static final int MIN_CHARS_TO_SEARCH = 2;
+    private static final String TAG = "CUSTOM MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stations);
+        setContentView(R.layout.stations_activity);
         addTextListeners((EditText) findViewById(R.id.departure_text));
+        loadStations();
     }
 
     @Override
@@ -73,6 +85,29 @@ public class StationsActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
+    }
+
+    private void loadStations() {
+        JSONResourceReader reader = new JSONResourceReader(getResources(), R.raw.allstations);
+        LoadStationsTask task = new LoadStationsTask();
+        task.execute(reader);
+        Log.e(TAG,"lets do stuff");
+        try {
+            AllStations ast = task.get();
+            //следующая строчка ломает. видимо я накосячил с форматом но где же блять ошибка обернем щас в трай и пизда всему
+            Station st = ast.getCitiesTo().get(0).getStations().get(0);
+            Log.e(TAG,ast.getCitiesTo().get(0).getStations().get(0).getStationTitle());
+            Log.e(TAG,"that was city");
+            List result = Arrays.asList(st.getStationTitle());
+            ListView listView = (ListView) findViewById(R.id.stations_list_view);
+            listView.setAdapter(new ArrayAdapter<>(this,
+                    android.R.layout.simple_list_item_1, result));
+
+        } catch (InterruptedException e) {
+            Log.e(TAG,"InterruptedException",e);
+        } catch (ExecutionException e) {
+            Log.e(TAG,"ExecutionException",e);
+        }
     }
 
     private void populateList(String s) {
