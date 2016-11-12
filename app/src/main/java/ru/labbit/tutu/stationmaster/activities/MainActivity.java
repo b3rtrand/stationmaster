@@ -5,16 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,6 +20,7 @@ import javax.inject.Inject;
 import ru.labbit.tutu.stationmaster.R;
 import ru.labbit.tutu.stationmaster.application.App;
 import ru.labbit.tutu.stationmaster.controller.Controller;
+import ru.labbit.tutu.stationmaster.utils.json.JSONResourceReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         App.getComponent().inject(this);
 
+        //TODO убрать в контроллер
+        controller.loadStations(new JSONResourceReader(getResources(), R.raw.allstations));
+
         departureTextView = (EditText) findViewById(R.id.departure_text);
         mainListView = (ListView) findViewById(R.id.stations_list_view);
 
@@ -46,38 +48,27 @@ public class MainActivity extends AppCompatActivity {
         controller.setControllerListener(new Controller.ControllerListener() {
             @Override
             public void onDepatrureChange(String s) {
-                //TODO: impl
                 departureTextView.setText(s);
             }
+
             @Override
             public void onStationsListChange(List<String> l) {
-//                mainListView.setAdapter(new ArrayAdapter<>(this,
-//                android.R.layout.simple_list_item_1, l));
+                populateMainList(l);
             }
         });
-        //TODO в конструкторе контроллера это делать
-        controller.loadStationsData();
-
-//        //TODO лист не надо заполнять его надо прятать пока он не понадобится
-//        List result = Arrays.asList(controller.whatever());
-//        mainListView.setAdapter(new ArrayAdapter<>(this,
-//                android.R.layout.simple_list_item_1, result));
     }
 
-    public void updateDepartureText(String s) {
-        departureTextView.setText(s);
+    private void populateMainList(List<String> l) {
+        ArrayAdapter<String> a = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, l);
+        mainListView.setAdapter(a);
     }
 
     private void addTextListeners(final EditText textField) {
         textField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                //TODO тоже вынести обработку в контроллер но туда надо отдать текст
-                if (hasFocus) {
-                    textField.setText("");
-                } else {
-                    textField.setText(R.string.departure);
-                }
+                Log.d("view is: ", v.toString());
+                controller.handleDepartureTextFocusChange(v, hasFocus);
             }
         });
         textField.addTextChangedListener(new TextWatcher() {
