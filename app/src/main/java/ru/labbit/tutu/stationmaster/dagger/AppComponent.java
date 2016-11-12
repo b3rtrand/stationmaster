@@ -6,7 +6,7 @@ import dagger.Component;
 import ru.labbit.tutu.stationmaster.activities.MainActivity;
 import ru.labbit.tutu.stationmaster.controller.Controller;
 
-@Singleton // Constraints this component to one-per-application or unscoped bindings.
+@Singleton
 @Component(modules = AppModule.class)
 public interface AppComponent {
 

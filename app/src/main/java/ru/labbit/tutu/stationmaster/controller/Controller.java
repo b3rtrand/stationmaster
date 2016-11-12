@@ -21,8 +21,7 @@ public class Controller {
     private AllStations allStations;
 
     public Controller() {
-        //intial stuff goes here
-//        listener = null; //todo убрать и посмотреть что будет
+        //maybe ill put some init stuff here later
     }
 
     public void setControllerListener(ControllerListener listener) {
@@ -36,8 +35,7 @@ public class Controller {
             l.add("пустой результат");
             listener.onStationsListChange(l);
         } else {
-            // TODO: 11.11.2016 как-то прятать его чтоли подумать
-            // TODO: 11.11.2016  если мало символов стало то что-то надо делать
+            // TODO: 11.11.2016 если мало символов стало то что-то надо делать как-то прятать его чтоли подумать
         }
     }
 
@@ -69,7 +67,7 @@ public class Controller {
         //TODO FIND OUT if must rework to use listeners
         task.execute(s);
         try {
-            Log.e(TAG,"building list of stations that qualify");
+            Log.e(TAG, "building list of stations that qualify");
             return task.get();
         } catch (InterruptedException e) {
             e.printStackTrace();

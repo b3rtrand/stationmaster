@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText departureTextView;
     private ListView mainListView;
 
+    /*
+    *       активность только вызывает методы контроллера
+    *       и обрабатывает его ответы для апдейта вью
+    *       бизнес логики в ней нет
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         textField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Log.d("view is: ", v.toString());
                 controller.handleDepartureTextFocusChange(v, hasFocus);
             }
         });
