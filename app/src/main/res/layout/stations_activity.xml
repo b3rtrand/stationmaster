@@ -11,7 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context="ru.labbit.tutu.stationmaster.activities.StationsActivity">
+    tools:context="ru.labbit.tutu.stationmaster.activities.MainActivity">
 
     <EditText
         android:id="@+id/departure_text"

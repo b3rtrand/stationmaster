@@ -19,12 +19,6 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Context provideApplicationContext() {
-        return this.application;
-    }
-
-    @Provides
-    @Singleton
     Controller provideController() {
         return new Controller();
     }

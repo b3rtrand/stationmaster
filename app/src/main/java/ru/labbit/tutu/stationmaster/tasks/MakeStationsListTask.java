@@ -3,11 +3,7 @@ package ru.labbit.tutu.stationmaster.tasks;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
-
-import ru.labbit.tutu.stationmaster.entities.Station;
 
 public class MakeStationsListTask extends AsyncTask<String, Void, List<String>> {
 

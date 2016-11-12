@@ -1,4 +1,4 @@
-package ru.labbit.tutu.stationmaster.entities;
+package ru.labbit.tutu.stationmaster.vos;
 
 import java.util.List;
 

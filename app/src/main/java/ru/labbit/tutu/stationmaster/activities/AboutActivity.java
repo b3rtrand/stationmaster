@@ -17,7 +17,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     public void backBtnClick(View view) {
-        Intent intent = new Intent(this, StationsActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }

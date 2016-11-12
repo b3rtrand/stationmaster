@@ -1,14 +1,15 @@
-package ru.labbit.tutu.stationmaster.entities;
+package ru.labbit.tutu.stationmaster.vos;
 
-public class Station {
+import java.util.List;
+
+public class City {
     private String countryTitle;
     private Coordinates point;
     private String districtTitle;
-    private Long cityId;
+    private long cityId;
     private String cityTitle;
     private String regionTitle;
-    private Long stationId;
-    private String stationTitle;
+    private List<Station> stations;
 
     public String getCountryTitle() {
         return countryTitle;
@@ -34,11 +35,11 @@ public class Station {
         this.districtTitle = districtTitle;
     }
 
-    public Long getCityId() {
+    public long getCityId() {
         return cityId;
     }
 
-    public void setCityId(Long cityId) {
+    public void setCityId(long cityId) {
         this.cityId = cityId;
     }
 
@@ -58,19 +59,11 @@ public class Station {
         this.regionTitle = regionTitle;
     }
 
-    public Long getStationId() {
-        return stationId;
+    public List<Station> getStations() {
+        return stations;
     }
 
-    public void setStationId(Long stationId) {
-        this.stationId = stationId;
-    }
-
-    public String getStationTitle() {
-        return stationTitle;
-    }
-
-    public void setStationTitle(String stationTitle) {
-        this.stationTitle = stationTitle;
+    public void setStations(List<Station> stations) {
+        this.stations = stations;
     }
 }

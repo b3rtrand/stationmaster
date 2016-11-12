@@ -4,6 +4,9 @@
     <string name="about_text">(c) Leonid Serdtsev healpower@yandex.ru</string>
     <string name="about_menu_title">О приложении</string>
     <string name="go_back">Назад</string>
+    <!--TODO выбрать один из вариантов или зарандомайзить шутки ради-->
     <string name="departure">Пункт отправления</string>
     <string name="destionation">Пункт назначения</string>
+    <string name="departure_alt">Откуда</string>
+    <string name="destionation_alt">Куда</string>
 </resources>
