@@ -3,9 +3,13 @@ package ru.labbit.tutu.stationmaster.controller;
 import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import ru.labbit.tutu.stationmaster.R;
+import ru.labbit.tutu.stationmaster.application.App;
 import ru.labbit.tutu.stationmaster.tasks.LoadStationsTask;
 import ru.labbit.tutu.stationmaster.tasks.MakeStationsListTask;
 import ru.labbit.tutu.stationmaster.utils.json.JSONResourceReader;
@@ -13,15 +17,21 @@ import ru.labbit.tutu.stationmaster.vos.AllStations;
 
 public class Controller {
 
-    public static final int MIN_CHARS_TO_SEARCH = 2;
+    public static final int MIN_CHARS_TO_SEARCH = 3;
     public static final String TAG = "CUSTOM_MESSAGE: ";
+    public static final int MAX_SYMBOLS_FOR_SUPER_SEARCH = 7;
 
     private ControllerListener listener;
+    private List<String> stationsList = new ArrayList<>();
+
+    //пока я просто хочу переходить к шагу выбора даты только когда оба эти значения установлены
+    public boolean departureStationSet;
+    public boolean arrivalStationSet;
 
     private AllStations allStations;
 
     public Controller() {
-        //maybe ill put some init stuff here later
+        loadStations(new JSONResourceReader(App.getContext().getResources(), R.raw.allstations));
     }
 
     public void setControllerListener(ControllerListener listener) {
@@ -29,27 +39,34 @@ public class Controller {
     }
 
     public void handleTextChange(String s) {
-        if (s.length() > Controller.MIN_CHARS_TO_SEARCH) {
-            List<String> l = populateList(s);
-            //TODO: отдельно обрабатывать пустой результат
-            l.add("пустой результат");
-            listener.onStationsListChange(l);
+        if (s.length() >= Controller.MIN_CHARS_TO_SEARCH) {
+            stationsList = createFilteredList(s);
+            if (stationsList.size() == 0) {
+                //вообще-то это не лучшая идея класть туда системные сообщения но время уже поджимает
+                stationsList.add(App.getContext().getResources().getString(R.string.not_found));
+            }
         } else {
-            // TODO: 11.11.2016 если мало символов стало то что-то надо делать как-то прятать его чтоли подумать
+            stationsList = Arrays.asList(App.getContext().getResources().getString(R.string.more_symbols));
         }
+        listener.onStationsListChange(stationsList);
     }
 
     public void handleDepartureTextFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
             listener.onDepatrureChange("");
-        } else {
-            //TODO возможно при потере фокуса мы захотим сбрасывать текст в дефолт если не выбрана осмысленная станция
+        }
+    }
+
+    public void handleArrivalTextFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+            listener.onArrivalChange("");
         }
     }
 
     public void loadStations(JSONResourceReader reader) {
         LoadStationsTask task = new LoadStationsTask();
         task.execute(reader);
+        System.out.println("loading stations");
         Log.e(TAG, "loading stations");
         try {
             allStations = task.get();
@@ -62,12 +79,11 @@ public class Controller {
         }
     }
 
-    private List<String> populateList(String s) {
+    //public для теста
+    public List<String> createFilteredList(String s) {
         MakeStationsListTask task = new MakeStationsListTask(this);
-        //TODO FIND OUT if must rework to use listeners
         task.execute(s);
         try {
-            Log.e(TAG, "building list of stations that qualify");
             return task.get();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -77,8 +93,14 @@ public class Controller {
         return null;
     }
 
+    public String getListItemText(int position) {
+        return stationsList.get(position);
+    }
+
     public interface ControllerListener {
         void onDepatrureChange(String s);
+
+        void onArrivalChange(String s);
 
         void onStationsListChange(List<String> l);
     }

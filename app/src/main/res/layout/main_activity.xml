@@ -19,7 +19,20 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/departure" />
+        android:text="@string/departure_alt" />
+
+    <EditText
+        android:id="@+id/arrival_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/arrival_alt" />
+
+    <CalendarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendarView" />
 
     <ListView
         android:id="@+id/stations_list_view"

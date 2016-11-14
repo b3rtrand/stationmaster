@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import ru.labbit.tutu.stationmaster.R;
+import ru.labbit.tutu.stationmaster.application.App;
 import ru.labbit.tutu.stationmaster.controller.Controller;
 import ru.labbit.tutu.stationmaster.vos.City;
 import ru.labbit.tutu.stationmaster.vos.Station;
@@ -21,21 +23,26 @@ public class MakeStationsListTask extends AsyncTask<String, Void, List<String>> 
 
     @Override
     protected List<String> doInBackground(String... s) {
-        // TODO: 11.11.2016 матчить как в ctrl+shift+n
         try {
+            //хотелось искать модно как в ctrl_shift+N но такая ерунда получается на этих данных
+            //searchText =".*" + s[0].replaceAll("(.)", "$1.*");
+            String searchText = ".*" + s[0] + ".*";
             List<City> cities = controller.getAllStations().getCitiesFrom();
 
             List<String> result = new ArrayList();
-            Pattern p = Pattern.compile(".*" + s[0] + ".*", Pattern.CASE_INSENSITIVE);
             //лямбды не поддерживаются =(
+            Pattern p = Pattern.compile(searchText, Pattern.CASE_INSENSITIVE);
 
             for (Object cityObject : cities) {
                 City city = (City) cityObject;
                 List<Station> stations = city.getStations();
                 for (Object station : stations) {
                     Station st = (Station) station;
-                    if (p.matcher(st.getStationTitle()).matches() || p.matcher(st.getCityTitle()).matches()) {
-                        result.add(st.getCityTitle() + " " + st.getStationTitle());
+                    String searchMe = st.getCityTitle() + " " + st.getStationTitle();
+                    //не будем искать по бессмысленным словам
+                    searchMe = searchMe.replaceAll(App.getContext().getResources().getString(R.string.meaningless), "");
+                    if (p.matcher(searchMe).matches()) {
+                        result.add(searchMe);
                     }
                 }
             }

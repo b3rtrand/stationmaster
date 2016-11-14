@@ -21,6 +21,11 @@
             android:name=".activities.AboutActivity"
             android:label="@string/about_activity_title"
             android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".activities.FinalActivity"
+            android:label="@string/final_activity_title"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

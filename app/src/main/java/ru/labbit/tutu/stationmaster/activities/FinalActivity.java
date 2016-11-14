@@ -5,12 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import ru.labbit.tutu.stationmaster.R;
 
-public class AboutActivity extends AppCompatActivity {
+public class FinalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.about_activity);
+        setContentView(R.layout.final_activity);
     }
 }

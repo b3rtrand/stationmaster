@@ -4,9 +4,13 @@
     <string name="about_text">(c) Leonid Serdtsev healpower@yandex.ru</string>
     <string name="about_menu_title">О приложении</string>
     <string name="go_back">Назад</string>
-    <!--TODO выбрать один из вариантов или зарандомайзить шутки ради-->
     <string name="departure">Пункт отправления</string>
-    <string name="destionation">Пункт назначения</string>
+    <string name="arrival">Пункт назначения</string>
     <string name="departure_alt">Откуда</string>
-    <string name="destionation_alt">Куда</string>
+    <string name="arrival_alt">Куда</string>
+    <string name="not_found">ничего не найдено</string>
+    <string name="thanks">Спасибо что добрались сюда!</string>
+    <string name="final_activity_title">На этом пока все</string>
+    <string name="more_symbols">"введите несколько символов названия интересующего вас пункта"</string>
+    <string name="meaningless">"город"</string>
 </resources>
