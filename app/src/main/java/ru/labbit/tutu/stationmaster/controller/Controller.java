@@ -79,8 +79,7 @@ public class Controller {
         }
     }
 
-    //public для теста
-    public List<String> createFilteredList(String s) {
+    private List<String> createFilteredList(String s) {
         MakeStationsListTask task = new MakeStationsListTask(this);
         task.execute(s);
         try {
